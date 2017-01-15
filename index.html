@@ -79,15 +79,17 @@
 
         // Adding objects to the canvas...
 
-        fabric.Image.fromURL('img/milagro.jpg', function(milagro) {
-          milagro.scale(0.5);
-          canvas.add(milagro.set({
-            left: 275,
-            top: 50
-          }));
+        function set_milagro(){
+            fabric.Image.fromURL('img/milagro.jpg', function(img) {
+              img.scale((canvas.height * .8) / img.height);
+              canvas.add(img.set({
+                left: canvas.width / 2 - 10,
+                top: canvas.height / 20
+              }));
 
-        });
-
+            });
+        }
+        set_milagro();
 
         $('#file').on("change", function (e) {
             var file = e.target.files[0];
@@ -95,8 +97,14 @@
             reader.onload = function (f) {
                 var data = f.target.result;
                 fabric.Image.fromURL(data, function (img) {
-                    canvas.setWidth(img.width);
-                    canvas.setHeight(img.height);
+                    var w = img.width;
+                    var h = img.height;
+                    canvas.clear();
+                    canvas.setWidth(w);
+                    canvas.setHeight(h);
+
+                    set_milagro();
+
                     canvas.setBackgroundImage(img).renderAll();
                 });
             };
